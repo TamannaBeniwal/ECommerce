@@ -1,0 +1,85 @@
+* {
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+}
+
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+nav {
+    height: 50px;
+    width: 100%;
+    background-color: red;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+
+nav a {
+    text-decoration: none;
+    color: white;
+    border: 2px solid black;
+    padding: 5px 10px;
+    border-radius: 10px;
+    
+}
+
+.container {
+    height: 100%;
+    width: 100%;
+    background-color: aliceblue;
+     padding: 20px;
+     display: flex;
+     flex-wrap: nowrap;
+     gap: 5px;
+}
+
+.card .top {
+    height: 50%;
+    width: 100%;
+    text-align: center;
+}
+
+.container .card{
+    height: 400px;
+    width: 300px;
+    border: 2px solid black;
+    padding: 5px;
+    border-radius: 10px;
+  
+}
+
+
+
+.card .bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+.card img {
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+}
+
+
+.filter form {
+    padding: 5px 20px;
+}
+
+.filter form select {
+    padding: 5px 10px;
+}
+
+
+.filter form button {
+     padding: 5px 10px;
+}
