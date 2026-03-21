@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cart</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<h2 style="text-align:center;">Your Cart 🛒</h2>
+
+<div class="container">
+    <% if(cart && cart.products.length > 0){ %>
+        <%let total = 0;
+            if(cart && cart.products){
+            cart.products.forEach(item => {
+           total += item.productId.price * item.quantity;
+    });
+}
+%>
+
+<h2 style="text-align:center; margin-top:20px;">
+    Total: ₹ <%= total %>
+
+
+    <div style="text-align:center; margin:20px;">
+    <a href="/cart/checkout" class="checkout-btn">Proceed to Checkout 💳</a>
+</div>
+</h2>
+        <% cart.products.forEach(item => { %>
+            <div class="card">
+                <img src="<%= item.productId.image %>">
+
+                <h3><%= item.productId.title %></h3>
+
+                <p>₹ <%= item.productId.price %></p>
+
+                <p>Quantity: <%= item.quantity %></p>
+                <a href="/cart/remove/<%= item.productId._id %>">❌ Remove</a>
+            </div>
+        <% }) %>
+    <% } else { %>
+        <p style="text-align:center;">Cart is empty</p>
+    <% } %>
+</div>
+
+</body>
+</html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -26,5 +26,32 @@
         <br>
         <p>if you have an accout <a href="/users/login">Login</a></p>
     </form>
+</body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Register</h2>
+
+    <form action="/users/register" method="POST">
+        <input type="text" name="username" placeholder="Enter username" required>
+        <input type="email" name="email" placeholder="Enter email" required>
+        <input type="password" name="password" placeholder="Enter password" required>
+        <button type="submit">Register</button>
+    </form>
+
+    <p>Already have an account? <a href="/users/login">Login</a></p>
+</div>
+
 </body>
 </html>

@@ -1,49 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="/home.css" />
-  </head>
-  <body>
-    <nav>
-      <a href="products/add">Add New Products </a>
-        <% if(decode){ %>
-           <a href="/users/logout">Logout</a>
-        <% } else {%>
-           <a href="/users/login">Login</a>
-        <% } %>
-    </nav>
+<head>
+    <meta charset="UTF-8">
+    <title>E-Commerce</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
 
-    <div class="filter">
-      <form action="/" method="get">
-        <select name="category" >
-          <option value="">All Categories</option>
-          <option value="beauty">beauty</option>
-          <option value="furniture">furniture</option>
-          <option value="groceries">groceries</option>
-        </select>
-        <button type="submit">Apply Filter</button>
-      </form>
-    </div>
+<!-- 🔹 Navbar -->
+<nav class="navbar">
+    <h2>E-Shop</h2>
 
-    <div class="container">
-      <% products.forEach(elem => { %>
-      <div class="card">
-        <div class="top">
-          <img src="<%= elem.image %>" alt="" />
-        </div>
-        <div class="bottom">
-          <a href="/products/detail/<%= elem._id %>"><h2><%= elem.title %></h2></a>
-          <p><%= elem.description %></p>
-          <h2>Price : <%= elem.price %></h2>
-        </div>
-      </div>
-      <% }); %>
+    <form action="/" method="GET">
+        <input type="text" name="search" placeholder="Search products...">
+        <button type="submit">Search</button>
+    </form>
+
+    <div>
+    <% if(decode){ %>
+        <span>Welcome <%= decode.username %></span>
+
+        <a href="/cart">🛒 Cart (<%= cartCount %>)</a>
+
+        <a href="/users/logout">Logout</a>
+    <% } else { %>
+        <a href="/users/login">Login</a>
+    <% } %>
+</div>
+   
+</nav>
+
+<!-- 🔹 Categories -->
+<div class="categories">
+    <a href="/">All</a>
+    <a href="/?category=Beauty">Beauty</a>
+    <a href="/?category=Groceries">Groceries</a>
+    <a href="/?category=Electronics">Electronics</a>
+</div>
+
+<!-- 🔹 Add Product -->
+<div class="add-btn">
+    <a href="/products/add">+ Add Product</a>
+</div>
+
+<div class="top-bar">
+    <div class="sort-container">
+        <form method="GET" action="/">
+            <select name="sort" onchange="this.form.submit()">
+                <option value="">Sort By</option>
+                <option value="low">Price: Low to High</option>
+                <option value="high">Price: High to Low</option>
+            </select>
+        </form>
     </div>
-  </body>
+</div>
+<!-- 🔹 Products -->
+<div class="container">
+
+    <% if(products.length === 0){ %>
+
+        <h2 style="grid-column: span 4; text-align:center;">
+            No products found 😔
+        </h2>
+
+    <% } else { %>
+
+        <% products.forEach(product => { %>
+            <div class="card">
+                <img src="<%= product.image %>" alt="product">
+
+                <h3><%= product.title %></h3>
+
+                <p class="price">₹ <%= product.price %></p>
+
+                <p><%= product.category %></p>
+                
+                <div class="buttons">
+                    <a href="/products/detail/<%= product._id %>">👁️ View</a>
+                    <a href="/cart/add/<%= product._id %>">🛒 Add</a>
+                </div>
+            </div>
+        <% }) %>
+
+    <% } %>
+
+</div>
+
+</body>
 </html>
-
-<!-- array of object  -->
-<!-- forEach / for of  -->
