@@ -1,47 +1,131 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Cart</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart | E-Shop</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Font Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen py-10 px-4 sm:px-6 lg:px-8">
 
-<h2 style="text-align:center;">Your Cart 🛒</h2>
+    <div class="max-w-5xl mx-auto">
+        <!-- Top Back Navigation -->
+        <div class="flex items-center justify-between mb-8">
+            <a href="/" class="inline-flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-slate-900 transition">
+                <span>←</span> Continue Shopping
+            </a>
+            <h1 class="text-xl font-extrabold text-slate-900 flex items-center gap-2">
+                <span>🛒</span> Shopping Cart
+            </h1>
+        </div>
 
-<div class="container">
-    <% if(cart && cart.products.length > 0){ %>
-        <%let total = 0;
-            if(cart && cart.products){
-            cart.products.forEach(item => {
-           total += item.productId.price * item.quantity;
-    });
-}
-%>
+        <% if(cart && cart.products && cart.products.length > 0){ %>
+            <% 
+                let total = 0;
+                cart.products.forEach(item => {
+                    total += (item.productId ? item.productId.price : 0) * item.quantity;
+                });
+            %>
 
-<h2 style="text-align:center; margin-top:20px;">
-    Total: ₹ <%= total %>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- Left: Cart Items List -->
+                <div class="lg:col-span-2 space-y-4">
+                    <% cart.products.forEach(item => { %>
+                        <% if(item.productId) { %>
+                            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 flex items-center gap-4 shadow-sm hover:shadow-md transition">
+                                <!-- Product Image -->
+                                <div class="w-20 h-20 rounded-xl bg-slate-100 overflow-hidden flex-shrink-0">
+                                    <img src="<%= item.productId.image %>" alt="<%= item.productId.title %>" class="w-full h-full object-cover">
+                                </div>
 
+                                <!-- Product Info -->
+                                <div class="flex-1 min-w-0">
+                                    <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md">
+                                        <%= item.productId.category %>
+                                    </span>
+                                    <h3 class="text-sm font-bold text-slate-900 mt-1 truncate" title="<%= item.productId.title %>">
+                                        <%= item.productId.title %>
+                                    </h3>
+                                    <p class="text-sm font-extrabold text-slate-900 mt-1">
+                                        ₹ <%= item.productId.price %>
+                                    </p>
+                                </div>
 
-    <div style="text-align:center; margin:20px;">
-    <a href="/cart/checkout" class="checkout-btn">Proceed to Checkout 💳</a>
-</div>
-</h2>
-        <% cart.products.forEach(item => { %>
-            <div class="card">
-                <img src="<%= item.productId.image %>">
+                                <!-- Quantity & Remove -->
+                                <div class="flex flex-col sm:flex-row items-end sm:items-center gap-3">
+                                    <span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700">
+                                        Qty: <%= item.quantity %>
+                                    </span>
+                                    <a href="/cart/remove/<%= item.productId._id %>" class="text-xs font-semibold text-rose-500 hover:text-rose-700 hover:bg-rose-50 p-2 rounded-xl transition" title="Remove Item">
+                                        🗑️
+                                    </a>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% }) %>
+                </div>
 
-                <h3><%= item.productId.title %></h3>
+                <!-- Right: Order Summary -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm sticky top-24">
+                        <h2 class="text-base font-bold text-slate-900 mb-4">Order Summary</h2>
 
-                <p>₹ <%= item.productId.price %></p>
+                        <div class="space-y-3 text-xs text-slate-600">
+                            <div class="flex justify-between">
+                                <span>Subtotal</span>
+                                <span class="font-bold text-slate-900">₹ <%= total %></span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Estimated Shipping</span>
+                                <span class="text-emerald-600 font-bold uppercase">Free</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Taxes</span>
+                                <span class="text-slate-400">Calculated at checkout</span>
+                            </div>
 
-                <p>Quantity: <%= item.quantity %></p>
-                <a href="/cart/remove/<%= item.productId._id %>">❌ Remove</a>
+                            <div class="h-px bg-slate-100 my-4"></div>
+
+                            <div class="flex justify-between text-base font-extrabold text-slate-900">
+                                <span>Total Amount</span>
+                                <span class="text-indigo-600">₹ <%= total %></span>
+                            </div>
+                        </div>
+
+                        <a href="/cart/checkout" class="mt-6 w-full inline-flex items-center justify-center gap-2 py-3 px-4 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] rounded-xl shadow-md shadow-indigo-100 transition-all">
+                            Proceed to Checkout 💳
+                        </a>
+                    </div>
+                </div>
+
             </div>
-        <% }) %>
-    <% } else { %>
-        <p style="text-align:center;">Cart is empty</p>
-    <% } %>
-</div>
+
+        <% } else { %>
+
+            <!-- Empty Cart State -->
+            <div class="text-center py-20 bg-white rounded-3xl border border-dashed border-slate-200">
+                <div class="text-5xl mb-3">🛒</div>
+                <h3 class="text-base font-bold text-slate-800">Your cart is empty</h3>
+                <p class="text-xs text-slate-500 mt-1 max-w-xs mx-auto">Looks like you haven't added anything to your cart yet.</p>
+                <a href="/" class="mt-5 inline-block px-5 py-2.5 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-sm transition">
+                    Explore Products
+                </a>
+            </div>
+
+        <% } %>
+
+    </div>
 
 </body>
 </html>
